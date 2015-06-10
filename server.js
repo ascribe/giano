@@ -32,4 +32,4 @@ http.createServer(function (req, res) {
         target: rule[TARGET],
         autoRewrite: true
     });
-}).listen(8080);
+}).listen(process.env.PORT || 8080);
