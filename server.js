@@ -27,7 +27,10 @@ http.createServer(function (req, res) {
         if (req.url.match(rule[RE]))
             break;
 
+    if (req.headers.referer)
+        req.headers.referer = req.headers.referer.replace(req.headers.host, rule[HOST]);
     req.headers.host = rule[HOST];
+
     proxy.web(req, res, {
         target: rule[TARGET],
         autoRewrite: true
