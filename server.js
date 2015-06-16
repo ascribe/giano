@@ -3,7 +3,8 @@ var http = require('http'),
     rules = require('./rules');
 
 var RE = 0, TARGET = 1, HOST = 2,
-    hostRegExp = /^https?:\/\/(([^:\/?#]*)(?::([0-9]+))?)/;
+    hostRegExp = /^https?:\/\/(([^:\/?#]*)(?::([0-9]+))?)/,
+    port = process.env.PORT || 8080;
 
 
 function getHost(url) {
@@ -20,7 +21,7 @@ function createRules(rules) {
 
 rules = createRules(rules);
 
-http.createServer(function (req, res) {
+var server = http.createServer(function (req, res) {
     var i = 0, rule;
 
     while (rule = rules[i++])
@@ -35,4 +36,7 @@ http.createServer(function (req, res) {
         target: rule[TARGET],
         autoRewrite: true
     });
-}).listen(process.env.PORT || 8080);
+})
+
+console.log('Starting Giano on port', port);
+server.listen(port);
