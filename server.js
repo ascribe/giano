@@ -47,6 +47,7 @@ proxy.on('error', function (err, req, res) {
     res.end('Oopsy, something went wrong. We just sent an email to our ' +
             'development team to report the error.\n' +
             'Try to reload the page anyway.');
+    return;
 
     var mailOptions = {
         from: 'Giano <team@ascribe.io>', // sender address
