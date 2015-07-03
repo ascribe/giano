@@ -40,6 +40,8 @@ proxy.on('error', function (err, req, res) {
         'headers': req.headers
     };
 
+    console.log(summary);
+
     res.writeHead(500, {
         'Content-Type': 'text/plain'
     });
@@ -47,8 +49,7 @@ proxy.on('error', function (err, req, res) {
     res.end('Oopsy, something went wrong. We just sent an email to our ' +
             'development team to report the error.\n' +
             'Try to reload the page anyway.');
-    return;
-
+    /*
     var mailOptions = {
         from: 'Giano <team@ascribe.io>', // sender address
         to: 'alberto@ascribe.io, tim@ascribe.io, dimi@ascribe.io', // list of receivers
@@ -64,7 +65,7 @@ proxy.on('error', function (err, req, res) {
         }
     });
 
-    console.log(summary);
+    */
 });
 
 
