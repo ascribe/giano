@@ -11,6 +11,7 @@
   "private": true,
   "license": "copyright",
   "dependencies": {
-    "http-proxy": "^1.11.1"
+    "http-proxy": "^1.11.1",
+    "nodemailer": "^1.4.0"
   }
 }
