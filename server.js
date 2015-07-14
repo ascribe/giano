@@ -75,7 +75,6 @@ var server = http.createServer(function (req, res) {
     if (req.headers.referer) {
         req.headers.referer = req.headers.referer.replace(req.headers.host, rule.host);
     }
-    req.headers.host = rule.host
 
     if (req.url === '/' && rule.redirect_root_to) {
         res.writeHead(302, {
@@ -84,6 +83,7 @@ var server = http.createServer(function (req, res) {
         });
         res.end();
     } else {
+        req.headers.host = rule.host;
         proxy.web(req, res, {
             target: rule.to,
             autoRewrite: true
