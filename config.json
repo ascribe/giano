@@ -13,7 +13,7 @@
         "*": [{
             "from": ".*",
             "to": "http://ascribe-jsapp.herokuapp.com/",
-            "prepend": "/app"
+            "redirect_root_to": "/app/"
         }]
     }
 }

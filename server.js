@@ -66,21 +66,29 @@ var server = http.createServer(function (req, res) {
         rules = getRules(subdomain),
         rule;
 
-    while (rule = rules[i++])
-        if (req.url.match(rule.from))
+    while (rule = rules[i++]) {
+        if (req.url.match(rule.from)) {
             break;
+        }
+    }
 
-    if (req.headers.referer)
+    if (req.headers.referer) {
         req.headers.referer = req.headers.referer.replace(req.headers.host, rule.host);
+    }
     req.headers.host = rule.host
 
-    if (rule.prepend)
-        req.url = rule.prepend + req.url;
-
-    proxy.web(req, res, {
-        target: rule.to,
-        autoRewrite: true
-    });
+    if (req.url === '/' && rule.redirect_root_to) {
+        res.writeHead(302, {
+            'Location': (req.socket.encrypted ? 'https://' : 'http://') + req.headers.host + rule.redirect_root_to,
+            'Content-Length': 0
+        });
+        res.end();
+    } else {
+        proxy.web(req, res, {
+            target: rule.to,
+            autoRewrite: true
+        });
+    }
 });
 
 console.log('Starting Giano on port', port);
