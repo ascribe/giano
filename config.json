@@ -1,0 +1,19 @@
+{
+    "hostname": "ascribe.ninja",
+
+    "subdomains": {
+        "www": [{
+            "from": "\/app(|\/.*)$",
+            "to": "http://ascribe-jsapp.herokuapp.com/"
+        }, {
+            "from": ".*",
+            "to": "http://ci-ascribe.herokuapp.com/"
+        }],
+
+        "*": [{
+            "from": ".*",
+            "to": "http://ascribe-jsapp.herokuapp.com/",
+            "prepend": "/app"
+        }]
+    }
+}
