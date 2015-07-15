@@ -73,6 +73,7 @@ var server = http.createServer(function (req, res) {
             'Content-Length': 0
         });
         res.end();
+        return;
     }
 
     while (rule = rules[i++]) {
