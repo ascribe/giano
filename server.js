@@ -66,6 +66,15 @@ var server = http.createServer(function (req, res) {
         rules = getRules(subdomain),
         rule;
 
+    if (req.headers['x-forwarded-proto'] != 'https') {
+        console.log('Redirect HTTP to HTTPS for', req.url);
+        res.writeHead(301, {
+            'Location': 'https://' + req.headers.host + req.url,
+            'Content-Length': 0
+        });
+        res.end();
+    }
+
     while (rule = rules[i++]) {
         if (req.url.match(rule.from)) {
             break;
