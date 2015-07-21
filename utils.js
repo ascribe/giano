@@ -72,7 +72,7 @@ var RULES = {
     url: function(cond) {
         var re = cond;
         if (typeof cond === 'string') {
-            re = new RegExp(cond);
+            re = new RegExp('^' + cond + '$');
         }
         return function(req) {
             return execRE(re, req.url);

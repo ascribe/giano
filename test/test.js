@@ -101,8 +101,8 @@ describe('utils', function() {
         });
 
         it('matches composite rules again', function () {
-            var reqMatch = prepareReq({url: '/kyuss-rocks', headers: {host: 'www.example.com'}}),
-                reqFail = prepareReq({url: '/', headers: {host: 'foo.example.com'}}),
+            var reqMatch = prepareReq({url: '/', headers: {host: 'www.example.com'}}),
+                reqFail = prepareReq({url: '/kyuss-rocks', headers: {host: 'foo.example.com'}}),
                 reqHandler = utils.createRule({
                     if: { subdomain: 'www', url: '/' },
                     then: function () { return true; }
@@ -163,7 +163,7 @@ describe('utils', function() {
                 },
                 rules = utils.parseConfig({
                     basehost: 'example.org',
-                    jsapp: 'http://warm-penguin-7262.herokuapp.com/',
+                    jsapp: 'http://smelly-penguin-7262.herokuapp.com/',
                     django: 'http://morning-smoke-6893.herokuapp.com/',
                     rules: [{
                             if: { headers: {'x-forwarded-proto': 'http' }},
@@ -201,11 +201,47 @@ describe('utils', function() {
 
             (rules(prepareReq({
                 url: '/app/'
-            }))()).should.be.equal('proxy: http://warm-penguin-7262.herokuapp.com/');
+            }))()).should.be.equal('proxy: http://smelly-penguin-7262.herokuapp.com/');
 
             (rules(prepareReq({
                 url: '/art/piece/1234567890'
             }))()).should.be.equal('redirect: https://www.example.org/app/edition/1234567890');
+
+            (rules(prepareReq({
+                url: '/tour'
+            }))()).should.be.equal('proxy: http://morning-smoke-6893.herokuapp.com/');
+
+            (rules(prepareReq({
+                url: '/'
+            }))()).should.be.equal('proxy: http://morning-smoke-6893.herokuapp.com/');
+
+            (rules(prepareReq({
+                url: '/app/something',
+                headers: {
+                    host: 'foo.example.org'
+                }
+            }))()).should.be.equal('proxy: http://smelly-penguin-7262.herokuapp.com/');
+
+            (rules(prepareReq({
+                url: '/',
+                headers: {
+                    host: 'foo.example.org'
+                }
+            }))()).should.be.equal('redirect: https://foo.example.org/app/');
+
+            (rules(prepareReq({
+                url: '/',
+                headers: {
+                    host: 'foo.example.org'
+                }
+            }))()).should.be.equal('redirect: https://foo.example.org/app/');
+
+            (rules(prepareReq({
+                url: '/app/test',
+                headers: {
+                    host: 'foo.example.org'
+                }
+            }))()).should.be.equal('proxy: http://smelly-penguin-7262.herokuapp.com/');
         });
     });
 
