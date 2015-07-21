@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    basehost: 'ascribe.io',
+    basehost: 'ascribe.ninja',
     jsapp: 'http://ascribe-jsapp.herokuapp.com/',
     django: 'http://ci-ascribe.herokuapp.com/',
     rules: [
@@ -10,7 +10,7 @@ module.exports = {
             then: { proxy: '{jsapp}' }
         },
         {
-            if: { subdomain: 'www', url: /\/art\/piece\/(.*)$/ },
+            if: { subdomain: 'www', url: /\/art\/piece\/(.*)(|\/)$/ },
             then: { redirect: 'https://{host}/app/edition/{1}' }
         },
         {
