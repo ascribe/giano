@@ -11,7 +11,7 @@ module.exports = {
         },
         {
             if: { subdomain: 'www', url: /\/art\/piece\/(.*)(|\/)$/ },
-            then: { redirect: 'https://{host}/app/edition/{1}' }
+            then: { redirect: 'http://{host}/app/edition/{1}' }
         },
         {
             if: { subdomain: 'www' },
@@ -19,7 +19,7 @@ module.exports = {
         },
         {
             if: { url: '/' },
-            then: { redirect: 'https://{subdomain}.{basehost}/app/' }
+            then: { redirect: 'http://{subdomain}.{basehost}/app/' }
         },
         {
             then: { proxy: '{jsapp}' }
