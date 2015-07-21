@@ -2,8 +2,8 @@
 
 module.exports = {
     basehost: 'ascribe.io',
-    jsapp: 'http://ascribe-prod-jsapp.herokuapp.com/',
-    django: 'http://warm-hamlet-6893.herokuapp.com/',
+    jsapp: 'http://ascribe-jsapp.herokuapp.com/',
+    django: 'http://ci.ascribe.herokuapp.com/',
     rules: [
         {
             if: { subdomain: 'www', url: /\/app(|\/.*)$/ },
