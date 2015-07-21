@@ -10,8 +10,8 @@ module.exports = {
             then: { proxy: '{jsapp}' }
         },
         {
-            if: { subdomain: 'www', url: /\/art\/piece\/(.*)(|\/)$/ },
-            then: { redirect: 'http://{host}/app/edition/{1}' }
+            if: { subdomain: 'www', url: /\/art\/piece\/(.*?)\/?$/ },
+            then: { redirect: 'http://{host}/app/editions/{1}' }
         },
         {
             if: { subdomain: 'www' },
