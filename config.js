@@ -11,7 +11,7 @@ module.exports = {
         },
         {
             if: { url: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
-            then: { redirect: 'http://{host}/app/editions/{1}' }
+            then: { redirect: 'https://{host}/app/editions/{1}' }
         },
         {
             if: { url: /^\/art\/.*/ },

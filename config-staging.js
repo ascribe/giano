@@ -11,7 +11,7 @@ module.exports = {
         },
         {
             if: { url: /^\/art\/.*/ },
-            then: { redirect: 'https://{host}/app/' }
+            then: { redirect: 'http://{host}/app/' }
         },
         {
             if: { url: /^\/app(|\/.*)$/ },
@@ -23,7 +23,7 @@ module.exports = {
         },
         {
             if: { url: '/' },
-            then: { redirect: 'https://{subdomain}.{basehost}/app/' }
+            then: { redirect: 'http://{subdomain}.{basehost}/app/' }
         }
     ]
 };
