@@ -10,12 +10,16 @@ module.exports = {
             then: { redirect: 'https://{@}' }
         },
         {
-            if: { subdomain: 'www', url: /\/app(|\/.*)$/ },
-            then: { proxy: '{jsapp}' }
+            if: { url: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
+            then: { redirect: 'http://{host}/app/editions/{1}' }
         },
         {
-            if: { subdomain: 'www', url: /\/art\/piece\/(.*?)\/?$/ },
-            then: { redirect: 'https://{host}/app/editions/{1}' }
+            if: { url: /^\/art\/.*/ },
+            then: { redirect: 'https://{host}/app/' }
+        },
+        {
+            if: { url: /^\/app(|\/.*)$/ },
+            then: { proxy: '{jsapp}' }
         },
         {
             if: { subdomain: 'www' },
@@ -24,9 +28,6 @@ module.exports = {
         {
             if: { url: '/' },
             then: { redirect: 'https://{subdomain}.{basehost}/app/' }
-        },
-        {
-            then: { proxy: '{jsapp}' }
         }
     ]
 };
