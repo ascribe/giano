@@ -3,7 +3,7 @@
 module.exports = {
     basehost: 'ascribe.io',
     jsapp: 'http://ascribe-jsapp.herokuapp.com/',
-    django: 'http://ci.ascribe.herokuapp.com/',
+    django: 'http://ci-ascribe.herokuapp.com/',
     rules: [
         {
             if: { subdomain: 'www', url: /\/app(|\/.*)$/ },
