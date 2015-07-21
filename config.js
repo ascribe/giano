@@ -15,7 +15,7 @@ module.exports = {
         },
         {
             if: { subdomain: 'www', url: /\/art\/piece\/(.*?)\/?$/ },
-            then: { redirect: 'https://{host}/app/edition/{1}' }
+            then: { redirect: 'https://{host}/app/editions/{1}' }
         },
         {
             if: { subdomain: 'www' },
