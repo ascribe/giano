@@ -1,0 +1,21 @@
+{
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "quotes": [2, "single"],
+        "eol-last": [0],
+        "no-mixed-requires": [0],
+        "no-underscore-dangle": [0],
+        "global-strict": [2, "always"],
+        "no-trailing-spaces": [2, { skipBlankLines: true }],
+        "no-console": 0,
+        "no-cond-assign": [1, "except-parens"],
+        "camelcase": [2, {"properties": "never"}]
+    },
+    "globals": {
+        "require": true,
+        "describe": true,
+        "it": true
+    }
+}
