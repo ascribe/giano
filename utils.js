@@ -51,17 +51,6 @@ var prepareUrl = function(url, context) {
 };
 
 
-var ACTIONS = {
-    proxy: function(context, req, res) {
-
-    },
-
-    redirect: function(context, req, res) {
-
-    }
-};
-
-
 var RULES = {
     noop: function() {
         return function() {
@@ -80,9 +69,13 @@ var RULES = {
     },
 
     subdomain: function(cond) {
+        var re = cond;
+        if (typeof cond === 'string') {
+            re = new RegExp('^' + cond + '$');
+        }
         return function(req) {
             var name = req.headers.host.split('.')[0];
-            return !!name.match(cond);
+            return !!execRE(re, name);
         };
     },
 
@@ -110,7 +103,7 @@ var getDynamicContext = function(req) {
 
 var createRule = function createRule(rule, context, actions) {
     var f, conds = [];
-    actions = actions || ACTIONS;
+    actions = actions || {};
     context = context || {};
 
     if (!rule.if) {
@@ -193,4 +186,3 @@ module.exports.createRules = createRules;
 module.exports.parseConfig = parseConfig;
 module.exports.prepareUrl = prepareUrl;
 module.exports.RULES = RULES;
-module.exports.ACTIONS = ACTIONS;
