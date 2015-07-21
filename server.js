@@ -2,7 +2,8 @@
 
 var http = require('http'),
     proxy = require('http-proxy').createProxy(),
-    config = require('./config'),
+    configFile = process.env.CONFIG || './config',
+    config = require(configFile),
     utils = require('./utils'),
     hostRegExp = /^https?:\/\/(([^:\/?#]*)(?::([0-9]+))?)/,
     port = process.env.PORT || 8080;
@@ -76,5 +77,5 @@ var server = http.createServer(function (req, res) {
     }
 });
 
-console.log('Starting Giano on port', port);
+console.log('Starting Giano on port', port, 'with conf', configFile);
 server.listen(port);
