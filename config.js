@@ -10,15 +10,15 @@ module.exports = {
             then: { redirect: 'https://{@}' }
         },
         {
-            if: { url: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
-            then: { redirect: 'https://{host}/app/editions/{1}' }
+            if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
+            then: { redirect: 'https://{host}/app/editions/{1}{query}' }
         },
         {
-            if: { url: /^\/art\/.*/ },
-            then: { redirect: 'https://{host}/app/' }
+            if: { path: /^\/art\/.*/ },
+            then: { redirect: 'https://{host}/app/{query}' }
         },
         {
-            if: { url: /^\/app(|\/.*)$/ },
+            if: { path: /^\/app(|\/.*)$/ },
             then: { proxy: '{jsapp}' }
         },
         {
@@ -26,8 +26,8 @@ module.exports = {
             then: { proxy: '{django}' }
         },
         {
-            if: { url: '/' },
-            then: { redirect: 'https://{subdomain}.{basehost}/app/' }
+            if: { path: '/' },
+            then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
         },
         {
             then: { proxy: '{django}' }

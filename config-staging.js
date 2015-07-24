@@ -6,15 +6,15 @@ module.exports = {
     django: 'http://ci-ascribe.herokuapp.com/',
     rules: [
         {
-            if: { url: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
+            if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
             then: { redirect: 'http://{host}/app/editions/{1}' }
         },
         {
-            if: { url: /^\/art\/.*/ },
+            if: { path: /^\/art\/.*/ },
             then: { redirect: 'http://{host}/app/' }
         },
         {
-            if: { url: /^\/app(|\/.*)$/ },
+            if: { path: /^\/app(|\/.*)$/ },
             then: { proxy: '{jsapp}' }
         },
         {
@@ -22,7 +22,7 @@ module.exports = {
             then: { proxy: '{django}' }
         },
         {
-            if: { url: '/' },
+            if: { path: '/' },
             then: { redirect: 'http://{subdomain}.{basehost}/app/' }
         }
     ]

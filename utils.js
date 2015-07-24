@@ -63,8 +63,18 @@ var RULES = {
         if (typeof cond === 'string') {
             re = new RegExp('^' + cond + '$');
         }
-        return function(req) {
+        return function(context, req) {
             return execRE(re, req.url);
+        };
+    },
+
+    path: function(cond) {
+        var re = cond;
+        if (typeof cond === 'string') {
+            re = new RegExp('^' + cond + '$');
+        }
+        return function(context) {
+            return execRE(re, context.path);
         };
     },
 
@@ -73,14 +83,13 @@ var RULES = {
         if (typeof cond === 'string') {
             re = new RegExp('^' + cond + '$');
         }
-        return function(req) {
-            var name = req.headers.host.split('.')[0];
-            return !!execRE(re, name);
+        return function(context) {
+            return !!execRE(re, context.subdomain);
         };
     },
 
     headers: function(cond) {
-        return function(req) {
+        return function(context, req) {
             for (var header in cond) {
                 if (req.headers[header] !== cond[header]) {
                     return false;
@@ -93,11 +102,21 @@ var RULES = {
 
 
 var getDynamicContext = function(req) {
-    return {
+    var tokens = req.url.split('?'),
+        path = tokens[0],
+        query = tokens[1] === undefined ? '' : '?' + tokens[1],
+        context;
+
+    context = {
         '@': req.headers.host + req.url,
         'host': req.headers.host,
-        'subdomain': req.headers.host.split('.')[0]
+        'subdomain': req.headers.host.split('.')[0],
+        'url': req.url,
+        'path': path,
+        'query': query
     };
+
+    return context;
 };
 
 
@@ -114,33 +133,37 @@ var createRule = function createRule(rule, context, actions) {
         }
     }
 
-    f = function(req) {
-        var i = 0, cond, _context = {};
+    f = function(ctx, req) {
+        var i = 0, cond, _ctx = {};
 
         while ((cond = conds[i++])) {
-            var r = cond(req);
+            var r = cond(ctx, req);
             if (!r) {
                 return false;
             } else if (typeof r === 'object') {
-                extend(_context, r);
+                extend(_ctx, r);
             }
         }
-        return _context;
+        return _ctx;
     };
 
     return function(req) {
-        var _context = f(req);
+        var ctx = {},
+            newCtx;
 
-        if (_context) {
-            // TODO: update context with some useful vars
-            extend(_context, context);
-            extend(_context, getDynamicContext(req));
+        extend(ctx, context);
+        extend(ctx, getDynamicContext(req));
+
+        newCtx = f(ctx, req);
+
+        if (newCtx) {
+            extend(ctx, newCtx);
             return function(res) {
                 var func;
 
                 if (typeof rule.then === 'function') {
                     func = rule.then;
-                    return func(_context, req, res);
+                    return func(ctx, req, res);
                 } else {
                     for (var k in rule.then) {
                         func = actions[k];
@@ -150,7 +173,7 @@ var createRule = function createRule(rule, context, actions) {
                         throw new Error(format('No action defined for "{0}"', k));
                     }
 
-                    return func(rule.then[k], _context, req, res);
+                    return func(rule.then[k], ctx, req, res);
                 }
             };
         }

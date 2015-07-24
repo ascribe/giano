@@ -1,11 +1,14 @@
 'use strict';
 
 var should = require('should');
-
 var utils = require('../utils');
 
 
 function prepareReq(d) {
+    if (!d.url) {
+        d.url = '/';
+    }
+
     if (!d.headers) {
         d.headers = {};
     }
@@ -28,8 +31,8 @@ describe('utils', function() {
 
     describe('#createRule({...})', function () {
         it('extracts groups', function () {
-            var reqMatch = prepareReq({'url': '/omg-i-love/kyuss'}),
-                reqFail = prepareReq({'url': '/nickelback'}),
+            var reqMatch = prepareReq({url: '/omg-i-love/kyuss'}),
+                reqFail = prepareReq({url: '/nickelback'}),
                 reqHandler = utils.createRule({
                     if: { url: /omg-i-love\/(.*)/ },
                     then: function (context) {
@@ -65,8 +68,8 @@ describe('utils', function() {
         });
 
         it('matches a url-based rule', function () {
-            var reqMatch = prepareReq({'url': '/kyuss'}),
-                reqFail = prepareReq({'url': '/nickelback'}),
+            var reqMatch = prepareReq({url: '/kyuss'}),
+                reqFail = prepareReq({url: '/nickelback'}),
                 reqHandler = utils.createRule({
                     if: { url: /\/kyuss/ },
                     then: function () { return true; }
@@ -170,20 +173,20 @@ describe('utils', function() {
                             then: { redirect: 'https://{@}' }
                         },
                         {
-                            if: { subdomain: 'www', url: /\/app(|\/.*)$/ },
+                            if: { subdomain: 'www', path: /\/app(|\/.*)$/ },
                             then: { proxy: '{jsapp}' }
                         },
                         {
-                            if: { subdomain: 'www', url: /\/art\/piece\/(.*)$/ },
-                            then: { redirect: 'https://{host}/app/edition/{1}' }
+                            if: { subdomain: 'www', path: /\/art\/piece\/(.*)$/ },
+                            then: { redirect: 'https://{host}/app/edition/{1}{query}' }
                         },
                         {
                             if: { subdomain: 'www' },
                             then: { proxy: '{django}' }
                         },
                         {
-                            if: { url: '/' },
-                            then: { redirect: 'https://{subdomain}.{basehost}/app/' }
+                            if: { path: '/' },
+                            then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
                         },
                         {
                             then: { proxy: '{jsapp}' }
@@ -200,12 +203,12 @@ describe('utils', function() {
             }))()).should.be.equal('redirect: https://www.example.org/');
 
             (rules(prepareReq({
-                url: '/app/'
+                url: '/app/?lang=fr'
             }))()).should.be.equal('proxy: http://smelly-penguin-7262.herokuapp.com/');
 
             (rules(prepareReq({
-                url: '/art/piece/1234567890'
-            }))()).should.be.equal('redirect: https://www.example.org/app/edition/1234567890');
+                url: '/art/piece/1234567890?whatever'
+            }))()).should.be.equal('redirect: https://www.example.org/app/edition/1234567890?whatever');
 
             (rules(prepareReq({
                 url: '/tour'
@@ -235,6 +238,13 @@ describe('utils', function() {
                     host: 'foo.example.org'
                 }
             }))()).should.be.equal('redirect: https://foo.example.org/app/');
+
+            (rules(prepareReq({
+                url: '/?lang=en',
+                headers: {
+                    host: 'foo.example.org'
+                }
+            }))()).should.be.equal('redirect: https://foo.example.org/app/?lang=en');
 
             (rules(prepareReq({
                 url: '/app/test',
