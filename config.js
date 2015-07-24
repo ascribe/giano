@@ -28,6 +28,9 @@ module.exports = {
         {
             if: { url: '/' },
             then: { redirect: 'https://{subdomain}.{basehost}/app/' }
+        },
+        {
+            then: { proxy: '{django}' }
         }
     ]
 };
