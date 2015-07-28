@@ -18,6 +18,10 @@ module.exports = {
             then: { redirect: 'https://{host}/app/{query}' }
         },
         {
+            if: { path: /^\/verify\/?$/ },
+            then: { redirect: 'https://{host}/app/verify' }
+        },
+        {
             if: { path: /^\/app(|\/.*)$/ },
             then: { proxy: '{jsapp}' }
         },
