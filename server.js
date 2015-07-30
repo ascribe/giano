@@ -39,14 +39,18 @@ var ACTIONS = {
         var targetUrl = utils.prepareUrl(value, context),
             targetHost = getHost(targetUrl);
 
-        if (req.headers.referer) {
-            req.headers.referer = req.headers.referer.replace(req.headers.host, targetHost);
-        }
+
+        // if (req.headers.referer) {
+        //    req.headers.referer = req.headers.referer.replace(req.headers.host, targetHost);
+        // }
+
+        req.headers['x-forwarded-host'] = req.headers.host;
         req.headers.host = targetHost;
 
         proxy.web(req, res, {
             target: targetUrl,
-            autoRewrite: true
+            autoRewrite: true,
+            xfwd: true
         });
     },
 
