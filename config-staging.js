@@ -7,11 +7,15 @@ module.exports = {
     rules: [
         {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
-            then: { redirect: 'http://{host}/app/editions/{1}' }
+            then: { redirect: 'http://{host}/app/editions/{1}{query}' }
         },
         {
             if: { path: /^\/art\/.*/ },
-            then: { redirect: 'http://{host}/app/' }
+            then: { redirect: 'http://{host}/app/{query}' }
+        },
+        {
+            if: { path: /^\/verify\/?$/ },
+            then: { redirect: 'http://{host}/app/verify' }
         },
         {
             if: { path: /^\/app(|\/.*)$/ },
@@ -23,7 +27,10 @@ module.exports = {
         },
         {
             if: { path: '/' },
-            then: { redirect: 'http://{subdomain}.{basehost}/app/' }
+            then: { redirect: 'http://{subdomain}.{basehost}/app/{query}' }
+        },
+        {
+            then: { proxy: '{django}' }
         }
     ]
 };
