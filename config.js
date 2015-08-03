@@ -4,10 +4,15 @@ module.exports = {
     basehost: 'ascribe.io',
     jsapp: 'http://ascribe-prod-jsapp.herokuapp.com/',
     django: 'http://warm-hamlet-6893.herokuapp.com/',
+    embed: 'http://ascribe-embed.herokuapp.com/',
     rules: [
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
             then: { redirect: 'https://{@}' }
+        },
+        {
+            if: { subdomain: 'embed' },
+            then: { proxy: '{embed}' }
         },
         {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
