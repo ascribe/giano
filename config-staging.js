@@ -2,8 +2,8 @@
 
 module.exports = {
     basehost: 'ascribe.ninja',
-    jsapp: 'http://ascribe-jsapp.herokuapp.com/',
-    django: 'http://ci-ascribe.herokuapp.com/',
+    jsapp: 'https://ascribe-jsapp.herokuapp.com/',
+    django: 'https://ci-ascribe.herokuapp.com/',
     rules: [
         {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
