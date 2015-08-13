@@ -2,20 +2,24 @@
 
 module.exports = {
     basehost: 'ascribe.ninja',
-    jsapp: 'https://ascribe-jsapp.herokuapp.com/',
-    django: 'https://ci-ascribe.herokuapp.com/',
+    jsapp: 'http://ascribe-jsapp.herokuapp.com/',
+    django: 'http://ci-ascribe.herokuapp.com/',
     rules: [
         {
+            if: { headers: {'x-forwarded-proto': 'http' }},
+            then: { redirect: 'https://{@}' }
+        },
+        {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
-            then: { redirect: 'http://{host}/app/editions/{1}{query}' }
+            then: { redirect: 'https://{host}/app/editions/{1}{query}' }
         },
         {
             if: { path: /^\/art\/.*/ },
-            then: { redirect: 'http://{host}/app/{query}' }
+            then: { redirect: 'https://{host}/app/{query}' }
         },
         {
             if: { path: /^\/verify\/?$/ },
-            then: { redirect: 'http://{host}/app/verify' }
+            then: { redirect: 'https://{host}/app/verify' }
         },
         {
             if: { path: /^\/app(|\/.*)$/ },
@@ -27,7 +31,7 @@ module.exports = {
         },
         {
             if: { path: '/' },
-            then: { redirect: 'http://{subdomain}.{basehost}/app/{query}' }
+            then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
         },
         {
             then: { proxy: '{django}' }
