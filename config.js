@@ -15,6 +15,10 @@ module.exports = {
             then: { proxy: '{embed}' }
         },
         {
+            if: { subdomain: 'hackathon' },
+            then: { redirect: 'https://www.eventbrite.com/e/construct-creators-hack-lab-tickets-18227120809' }
+        },
+        {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
             then: { redirect: 'https://{host}/app/editions/{1}{query}' }
         },
