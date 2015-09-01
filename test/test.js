@@ -91,6 +91,18 @@ describe('utils', function() {
             should(reqHandler(reqFail)).be.undefined();
         });
 
+        it('matches a subsubdomain-based rule', function () {
+            var reqMatch = prepareReq({headers: {host: 'www.whatever.example.com'}}),
+                reqFail = prepareReq({headers: {host: 'foo.whatever.example.com'}}),
+                reqHandler = utils.createRule({
+                    if: { subdomain: 'www.whatever' },
+                    then: function () { return true; }
+                }, { basehost: 'example.com' });
+
+            (reqHandler(reqMatch)()).should.be.true();
+            should(reqHandler(reqFail)).be.undefined();
+        });
+
         it('matches composite rules', function () {
             var reqMatch = prepareReq({url: '/kyuss-rocks', headers: {host: 'www.example.com'}}),
                 reqFail = prepareReq({url: '/whatever', headers: {host: 'foo.example.com'}}),

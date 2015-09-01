@@ -101,16 +101,25 @@ var RULES = {
 };
 
 
-var getDynamicContext = function(req) {
+var getDynamicContext = function(req, ctx) {
     var tokens = req.url.split('?'),
         path = tokens[0],
         query = tokens[1] === undefined ? '' : '?' + tokens[1],
-        context;
+        subdomain, context;
+
+    if (ctx.basehost) {
+        subdomain = req.headers.host.replace(ctx.basehost, '');
+        if (subdomain.match(/\.$/)) {
+            subdomain = subdomain.slice(0, -1);
+        }
+    } else {
+        subdomain = req.headers.host.split('.')[0];
+    }
 
     context = {
         '@': req.headers.host + req.url,
         'host': req.headers.host,
-        'subdomain': req.headers.host.split('.')[0],
+        'subdomain': subdomain,
         'url': req.url,
         'path': path,
         'query': query
@@ -152,7 +161,7 @@ var createRule = function createRule(rule, context, actions) {
             newCtx;
 
         extend(ctx, context);
-        extend(ctx, getDynamicContext(req));
+        extend(ctx, getDynamicContext(req, ctx));
 
         newCtx = f(ctx, req);
 
