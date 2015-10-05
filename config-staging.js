@@ -4,6 +4,7 @@ module.exports = {
     basehost: 'ascribe.ninja',
     jsapp: 'http://ascribe-jsapp.herokuapp.com/',
     django: 'http://ci-ascribe.herokuapp.com/',
+    analytics: 'http://ascribe-staging-d3.herokuapp.com/',
     rules: [
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
@@ -28,6 +29,10 @@ module.exports = {
         {
             if: { subdomain: 'www' },
             then: { proxy: '{django}' }
+        },
+        {
+            if: { subdomain: 'analytics' },
+            then: { proxy: '{analytics}' }
         },
         {
             if: { path: '/' },
