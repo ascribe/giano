@@ -32,7 +32,7 @@ module.exports = {
         },
         {
             if: { path: /^\/verify\/?$/ },
-            then: { redirect: 'https://{host}/app/verify' }
+            then: { redirect: 'https://{host}/app/coa_verify' }
         },
         {
             if: { path: /^\/app(|\/.*)$/ },
