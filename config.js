@@ -45,6 +45,10 @@ module.exports = {
             then: { proxy: '{django}' }
         },
         {
+            if: { path: /^\/s3(|\/.*)$/ },
+            then: { proxy: '{django}' }
+        },
+        {
             if: { subdomain: 'www' },
             then: { proxy: '{wordpress}' }
         },
