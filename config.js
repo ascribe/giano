@@ -41,11 +41,7 @@ module.exports = {
             then: { proxy: '{jsapp}' }
         },
         {
-            if: { path: /^\/api(|\/.*)$/ },
-            then: { proxy: '{django}' }
-        },
-        {
-            if: { path: /^\/s3(|\/.*)$/ },
+            if: { path: /\/((o|s3|encoder|settings|api)\/|robots\.txt$)/ },
             then: { proxy: '{django}' }
         },
         {
