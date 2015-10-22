@@ -47,10 +47,10 @@ module.exports = {
         {
             if: { subdomain: 'www' },
             then: { proxy: '{wordpress}' }
-        }
+        },
         {
             if: { path: '/' },
             then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
-        },
+        }
     ]
 };
