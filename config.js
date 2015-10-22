@@ -49,6 +49,10 @@ module.exports = {
             then: { proxy: '{wordpress}' }
         },
         {
+            if: { subdomain: 'blog' },
+            then: { redirect: 'https://www.ascribe.io/blog/{path}' }
+        },
+        {
             if: { path: '/' },
             then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
         }
