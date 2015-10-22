@@ -46,7 +46,7 @@ module.exports = {
         },
         {
             if: { subdomain: 'www' },
-            then: { proxy: '{django}' }
+            then: { proxy: '{wordpress}' }
         },
         {
             if: { path: '/' },

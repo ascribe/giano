@@ -28,6 +28,10 @@ module.exports = {
             then: { proxy: '{jsapp}' }
         },
         {
+            if: { path: /^\/api(|\/.*)$/ },
+            then: { proxy: '{django}' }
+        },
+        {
             if: { subdomain: 'www' },
             then: { proxy: '{wordpress}' }
         },
