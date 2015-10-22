@@ -45,11 +45,12 @@ module.exports = {
             then: { proxy: '{django}' }
         },
         {
+            if: { subdomain: 'www' },
+            then: { proxy: '{wordpress}' }
+        }
+        {
             if: { path: '/' },
             then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
         },
-        {
-            then: { proxy: '{wordpress}' }
-        }
     ]
 };
