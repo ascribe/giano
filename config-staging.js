@@ -5,6 +5,7 @@ module.exports = {
     jsapp: 'http://ascribe-jsapp.herokuapp.com/',
     django: 'http://ci-ascribe.herokuapp.com/',
     analytics: 'http://ascribe-staging-d3.herokuapp.com/',
+    wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
     rules: [
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
@@ -28,7 +29,7 @@ module.exports = {
         },
         {
             if: { subdomain: 'www' },
-            then: { proxy: '{django}' }
+            then: { proxy: '{wordpress}' }
         },
         {
             if: { subdomain: 'analytics' },
