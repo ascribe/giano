@@ -45,12 +45,8 @@ module.exports = {
             then: { proxy: '{django}' }
         },
         {
-            if: { path: /^\/images.*$/ },
-            then: { proxy: '{wordpress}' }
-        },
-        {
             if: { subdomain: 'www' },
-            then: { proxy: '{wordpress}' }
+            then: { proxy: '{django}' }
         },
         {
             if: { path: '/' },
