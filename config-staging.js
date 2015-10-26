@@ -6,6 +6,7 @@ module.exports = {
     django: 'http://ci-ascribe.herokuapp.com/',
     analytics: 'http://ascribe-staging-d3.herokuapp.com/',
     wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
+
     rules: [
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
@@ -21,14 +22,14 @@ module.exports = {
         },
         {
             if: { path: /^\/verify\/?$/ },
-            then: { redirect: 'https://{host}/app/verify' }
+            then: { redirect: 'https://{host}/app/coa_verify' }
         },
         {
             if: { path: /^\/app(|\/.*)$/ },
             then: { proxy: '{jsapp}' }
         },
         {
-            if: { path: /^\/api(|\/.*)$/ },
+            if: { path: /\/((o|s3|encoder|settings|api)\/|robots\.txt$)/ },
             then: { proxy: '{django}' }
         },
         {
@@ -42,9 +43,6 @@ module.exports = {
         {
             if: { path: '/' },
             then: { redirect: 'https://{subdomain}.{basehost}/app/{query}' }
-        },
-        {
-            then: { proxy: '{django}' }
         }
     ]
 };
