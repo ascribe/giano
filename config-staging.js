@@ -8,10 +8,12 @@ module.exports = {
     wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
 
     rules: [
+        /*
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
             then: { redirect: 'https://{@}' }
         },
+        */
         {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
             then: { redirect: 'https://{host}/app/editions/{1}{query}' }
