@@ -6,6 +6,7 @@ module.exports = {
     django: 'http://warm-hamlet-6893.herokuapp.com/',
     embed: 'http://ascribe-embed.herokuapp.com/',
     wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
+    cards: 'http://ascribe-prod-cards.herokuapp.com/',
 
     rules: [
         {
@@ -15,6 +16,13 @@ module.exports = {
         {
             if: { subdomain: 'embed' },
             then: { proxy: '{embed}' }
+        },
+        {
+            if: {
+                path: /^\/app\/((?:pieces|editions)\/.*)/,
+                headers: {'user-agent': /^(facebookexternalhit|Facebot|Twitterbot)/i }
+            },
+            then: { proxy: '{cards}'}
         },
         {
             if: { subdomain: 'hackathon' },
