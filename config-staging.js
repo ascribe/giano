@@ -9,20 +9,15 @@ module.exports = {
     cards: 'http://ascribe-prod-cards.herokuapp.com/',
 
     rules: [
+        /*
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
             then: { redirect: 'https://{@}' }
         },
+        */
         {
             if: {
                 path: /^\/app\/((?:pieces|editions)\/.*)/,
-                headers: {'user-agent': /^(facebookexternalhit|Facebot|Twitterbot)/i }
-            },
-            then: { redirect: 'https://{host}/{1}{query}'}
-        },
-        {
-            if: {
-                path: /^\/(?:pieces|editions)\/.*/,
                 headers: {'user-agent': /^(facebookexternalhit|Facebot|Twitterbot)/i }
             },
             then: { proxy: '{cards}'}
