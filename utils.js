@@ -89,13 +89,25 @@ var RULES = {
     },
 
     headers: function(cond) {
+        var re = {};
+
+        for (var header in cond) {
+            var condForHeader = cond[header];
+
+            if (typeof condForHeader === 'string') {
+                condForHeader = new RegExp('^' + condForHeader + '$');
+            }
+            re[header] = condForHeader;
+        }
+
         return function(context, req) {
-            for (var header in cond) {
-                if (req.headers[header] !== cond[header]) {
+            for (var header in re) {
+                var match = execRE(re[header], req.headers[header]);
+                if (!match) {
                     return false;
                 }
+                return true;
             }
-            return true;
         };
     }
 };

@@ -165,6 +165,29 @@ describe('utils', function() {
     });
 
 
+    describe('#createRules(...)', function () {
+        it('matches the user agent', function () {
+            var reqMatch = prepareReq({
+                    'url': '/yawning-man',
+                    'headers': {
+                        'user-agent': 'Googlebot/2.1 (+http://www.google.com/bot.html)'
+                    }
+                }),
+                reqFail = prepareReq({'url': '/nope-nope-nope'}),
+                rules = utils.createRules([{
+                    if: { headers: {'user-agent': /(Googlebot|Twitterbot)/} },
+                    then: function () { return 'bot'; }
+                }]);
+
+            (rules).should.be.an.instanceOf(Function);
+            (rules(reqMatch)).should.be.an.instanceOf(Function);
+            (rules(reqMatch)()).should.be.equal('bot');
+
+            should(rules(reqFail)).be.undefined();
+        });
+    });
+
+
     describe('#parseConfig(...)', function () {
         it('works perfectly lol', function () {
             var actions = {
