@@ -6,14 +6,27 @@ module.exports = {
     django: 'http://ci-ascribe.herokuapp.com/',
     analytics: 'http://ascribe-staging-d3.herokuapp.com/',
     wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
+    cards: 'http://ascribe-prod-cards.herokuapp.com/',
 
     rules: [
-        /*
         {
             if: { headers: {'x-forwarded-proto': 'http' }},
             then: { redirect: 'https://{@}' }
         },
-        */
+        {
+            if: {
+                path: /^\/app\/((?:pieces|editions)\/.*)/,
+                headers: {'user-agent': /^(facebookexternalhit|Facebot|Twitterbot)/i }
+            },
+            then: { redirect: 'https://{host}/{1}{query}'}
+        },
+        {
+            if: {
+                path: /^\/(?:pieces|editions)\/.*/,
+                headers: {'user-agent': /^(facebookexternalhit|Facebot|Twitterbot)/i }
+            },
+            then: { proxy: '{cards}'}
+        },
         {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
             then: { redirect: 'https://{host}/app/editions/{1}{query}' }
