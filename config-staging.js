@@ -7,6 +7,7 @@ module.exports = {
     analytics: 'http://ascribe-staging-d3.herokuapp.com/',
     wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
     cards: 'http://ascribe-prod-cards.herokuapp.com/',
+    embed: 'http://ascribe-staging-embed.herokuapp.com/',
 
     rules: [
         /*
@@ -21,6 +22,10 @@ module.exports = {
                 headers: {'user-agent': /^(facebookexternalhit|Facebot|Twitterbot)/i }
             },
             then: { proxy: '{cards}'}
+        },
+        {
+            if: { subdomain: 'embed' },
+            then: { proxy: '{embed}' }
         },
         {
             if: { path: /^(?:\/art)?\/piece\/(.*?)\/?$/ },
