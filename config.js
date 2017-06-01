@@ -5,7 +5,7 @@ module.exports = {
     jsapp: 'http://ascribe-prod-jsapp.herokuapp.com/',
     django: 'http://warm-hamlet-6893.herokuapp.com/',
     embed: 'http://ascribe-embed.herokuapp.com/',
-    wordpress: 'http://ec2-52-29-65-193.eu-central-1.compute.amazonaws.com/',
+    wordpress: 'http://ec2-52-57-166-130.eu-central-1.compute.amazonaws.com/',
     cards: 'http://ascribe-prod-cards.herokuapp.com/',
 
     rules: [
