@@ -9,7 +9,7 @@
   },
   "author": "Alberto Granzotto <alberto@ascribe.io>",
   "private": true,
-  "license": "copyright",
+  "license": "LGPL-3.0-only",
   "dependencies": {
     "http-proxy": "^1.11.1",
     "nodemailer": "^1.4.0",
